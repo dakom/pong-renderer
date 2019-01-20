@@ -5,7 +5,5 @@ export * from "./Generic-Types";
 export * from "./Renderer-Types";
 export * from "./GameObject-Types";
 export * from "./Renderable-Types";
-export * from "./Worker-Types";
 export * from "./Texture-Types";
-export * from "./Controller-Types";
 export * from "./Constants-Types";

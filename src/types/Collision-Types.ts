@@ -3,4 +3,6 @@ export enum CollisionName {
     PADDLE2 = "paddle2",
     LEFT_WALL = "leftWall",
     RIGHT_WALL = "rightWall",
+    TOP_WALL = "topWall",
+    BOTTOM_WALL = "bottomWall",
 }

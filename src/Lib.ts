@@ -1,20 +1,16 @@
-import {Position, ControllerValue, Renderer, RenderableId, Constants, ControllerHandler, CollisionName} from "./types/Types";
-import {playCollision} from "./audio/Audio";
+import {Position, Renderer, RenderableId, Constants, CollisionName} from "./types/Types";
+import {playCollisionAudio} from "./audio/Audio";
 import {setupBackground} from "./background/Background";
-import {startController} from "./controller/Controller";
 import {createScoreboard} from "./scoreboard/Scoreboard";
 import {setupRenderer} from "./renderer/Renderer-Setup";
 import * as WebFont from "webfontloader";
 
-export interface SetupOptions {
-    constants?:Constants,
-    handleController: ControllerHandler;
-}
 
 export interface SetupResult {
     constants:Readonly<Constants>;
-    onRender:(gameObjects:GameObjectPositions) => void;
-    onCollision: (collisionName: CollisionName | string) => void;
+    render:(gameObjects:GameObjectPositions) => void;
+    playCollisionAudio: (collisionName: CollisionName) => void;
+    addPoint: (player:1 | 2) => void;
 }
 
 export interface GameObjectPositions {
@@ -23,11 +19,11 @@ export interface GameObjectPositions {
     paddle2: Position
 }
 
-export {CollisionName, ControllerHandler, ControllerValue};
+export {CollisionName};
 
-export const setup = async ({handleController, ...opts}:SetupOptions):Promise<SetupResult> =>{
+export const setup = async (constants?:Constants):Promise<SetupResult> =>{
     setupBackground();
-    const constants = _normalizeConstants(opts.constants);
+    constants = _normalizeConstants(constants);
 
     return new Promise(resolve => 
         //https://github.com/typekit/webfontloader/issues/393
@@ -41,9 +37,8 @@ export const setup = async ({handleController, ...opts}:SetupOptions):Promise<Se
     .then(() => setupRenderer(constants))
     .then((renderer:Renderer) => new Promise<SetupResult>(resolve => {
         const scoreboard = createScoreboard (constants) (renderer); 
-        startController(handleController); //not passing a pause/stopper
 
-        const onRender = ({ball, paddle1, paddle2}:{ball: Position, paddle1: Position, paddle2: Position}) => {
+        const render = ({ball, paddle1, paddle2}:{ball: Position, paddle1: Position, paddle2: Position}) => {
             renderer.render([
                 {id: RenderableId.BALL, ...ball},
                 {id: RenderableId.PADDLE1, ...paddle1},
@@ -52,20 +47,11 @@ export const setup = async ({handleController, ...opts}:SetupOptions):Promise<Se
             ])
         }
 
-        const onCollision = (collisionName:CollisionName | string) => {
-            if(collisionName === CollisionName.LEFT_WALL) {
-                scoreboard.addPoint(2);
-            } else if(collisionName === CollisionName.RIGHT_WALL) {
-                scoreboard.addPoint(1);
-            } 
-
-            playCollision(collisionName);
-        }
-        
         resolve({
             constants,
-            onRender,
-            onCollision
+            addPoint: scoreboard.addPoint,
+            render,
+            playCollisionAudio 
         });
     }));
 }
@@ -80,7 +66,7 @@ export const getCenterPositions = (constants:Constants):GameObjectPositions => {
     }
 }
 
-const _normalizeConstants = (_constants:Constants):Constants => 
+const _normalizeConstants = (_constants?:Constants):Constants => 
     Object.assign({
         ballRadius: 7.0,
         ballSpeed: 1.0,

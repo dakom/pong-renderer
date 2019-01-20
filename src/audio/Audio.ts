@@ -1,4 +1,5 @@
 import {CollisionName} from "../types/Types";
+import {unreachable} from "../utils/Utils";
 
 let _ctx:AudioContext;
 
@@ -17,7 +18,7 @@ const getContext = () => {
 }
 
 
-const playWave = (hz:number) => (time:number) => {
+const _playWave = (hz:number) => (time:number) => {
     const oscillator = getContext().createOscillator();
     oscillator.type = 'square';
     oscillator.frequency.setValueAtTime(hz, getContext().currentTime);
@@ -27,12 +28,21 @@ const playWave = (hz:number) => (time:number) => {
     setTimeout(() => oscillator.stop(), time);
 }
 
-export const playCollision = (collisionName: CollisionName | string) => {
+const play440 = _playWave(440);
+const play110 = _playWave(110);
+const play880 = _playWave(880);
+const play320 = _playWave(320);
+
+export const playCollisionAudio = (collisionName: CollisionName) => {
     switch(collisionName) {
-        case "paddle1": 
-        case "paddle2": playWave(440) (100); break;
-        case "leftWall": playWave(110) (200); break;
-        case "rightWall": playWave(880) (200); break;
-        default: playWave(320) (100); break;
+        case CollisionName.PADDLE1: 
+        case CollisionName.PADDLE2: play440 (100); break;
+        case CollisionName.LEFT_WALL: play110 (200); break;
+        case CollisionName.RIGHT_WALL: play880 (200); break;
+        case CollisionName.TOP_WALL:
+        case CollisionName.BOTTOM_WALL: play320 (100); break;
+        default: unreachable(collisionName); 
+
     }
 }
+

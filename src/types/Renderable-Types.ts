@@ -1,11 +1,9 @@
+import {Position} from "./Generic-Types";
+
 export interface Renderable extends Partial<Position> {
     id: RenderableId;
 }
 
-export interface Position {
-    x: number;
-    y: number;
-}
 export enum RenderableId {
     BALL = 0, 
     PADDLE1 = 1,
