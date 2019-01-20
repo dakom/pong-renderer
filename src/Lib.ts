@@ -13,9 +13,17 @@ interface SetupOptions {
 
 interface SetupResult {
     constants:Readonly<Constants>;
-    onRender:({ball, paddle1, paddle2}:{ball: Position, paddle1: Position, paddle2: Position}) => void;
+    onRender:(gameObjects:GameObjectPositions) => void;
     onCollision: (collisionName: CollisionName | string) => void;
 }
+
+interface GameObjectPositions {
+    ball: Position, 
+    paddle1: Position, 
+    paddle2: Position
+}
+
+export {CollisionName};
 
 export const setup = async ({handleController, ...opts}:SetupOptions):Promise<SetupResult> =>{
     setupAudio();
@@ -23,7 +31,8 @@ export const setup = async ({handleController, ...opts}:SetupOptions):Promise<Se
     const constants = normalizeConstants(opts.constants);
 
     return new Promise(resolve => 
-        WebFont.load({
+        //https://github.com/typekit/webfontloader/issues/393
+        ((window as any).WebFont || WebFont).load({
             google: {
               families: ['Press Start 2P']
             },
@@ -60,6 +69,16 @@ export const setup = async ({handleController, ...opts}:SetupOptions):Promise<Se
             onCollision
         });
     }));
+}
+
+export const getCenterPositions = (constants:Constants):GameObjectPositions => {
+    const {canvasWidth, canvasHeight, paddleWidth} = constants;
+
+    return {
+        ball: {x: canvasWidth/2, y: canvasHeight/2},
+        paddle1: {x: paddleWidth/2, y: canvasHeight/2},
+        paddle2: {x: canvasWidth - (paddleWidth/2), y: canvasHeight/2},
+    }
 }
 
 const normalizeConstants = (_constants:Constants):Constants => 
