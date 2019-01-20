@@ -4,6 +4,8 @@ A library to test web frameworks by rendering Pong in WebGL
 
 This snippet shows how to get up and running. There is no movement of any kind because that's the idea - drive this with your game logic written elsewhere :)
 
+After `npm install --save pong-renderer`:
+
 ```
 import {setup, CollisionName} from "pong-renderer";
 
