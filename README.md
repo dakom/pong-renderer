@@ -3,12 +3,12 @@ A library to test web frameworks by rendering pong
 # EXAMPLE
 
 ```
-import {setup, CollisionName} from "pong-renderer";
+import {setup, CollisionName, ControllerValue} from "pong-renderer";
 
+//The only thing that really needs to be passed in
 const handleController = (value:ControllerValue) => {
     if(value === ControllerValue.UP) {
-        //Just for demo purposes... real-world would move paddle
-        onCollision(CollisionName.LEFT_WALL);
+        //Move paddle
     }
 }
 
@@ -16,12 +16,18 @@ setup({ handleController}).then(({constants, onRender, onCollision}) => {
     const {canvasWidth, canvasHeight, ballRadius, paddleWidth, paddleHeight} = constants;
 
     //Render the items in the middle of the screen (without helper)
+    //Real-world would have this in a requestAnimationFrame cycle
+    //With the dynamic object positions
     onRender({
         ball: {x: canvasWidth/2, y: canvasHeight/2},
         paddle1: {x: paddleWidth/2, y: canvasHeight/2},
         paddle2: {x: canvasWidth - (paddleWidth/2), y: canvasHeight/2},
     });
 
+    //Real-world would have this based on proper collision detection
+    //This may not even execute as-is in some browsers due to
+    //Requiring a user gesture before playing audio
+    onCollision(CollisionName.LEFT_WALL);
 });
 ```
 
