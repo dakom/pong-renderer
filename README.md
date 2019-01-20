@@ -2,7 +2,8 @@ A library to test web things by rendering Pong in WebGL
 
 # [Example](https://dakom.github.io/pong-renderer/)
 
-This snippet shows how to get up and running. There is no movement of any kind because that's the idea - drive this with your game logic written elsewhere :)
+This snippet shows how to get up and running. 
+There is no movement of any kind because that's the idea - drive this with your game logic written elsewhere :)
 
 After `npm install --save pong-renderer`
 
@@ -13,7 +14,7 @@ import {setup, CollisionName} from "pong-renderer";
 setup().then(({constants, render: _render, addPoint, playCollisionAudio}) => {
     const {canvasWidth, canvasHeight, paddleWidth} = constants;
 
-    //Render the items in the middle of the screen (without helper)
+    //Render the items in their default positions
     //Real-world would have this in a requestAnimationFrame cycle
     //With the dynamic object positions
     const render = () => _render({
@@ -25,7 +26,7 @@ setup().then(({constants, render: _render, addPoint, playCollisionAudio}) => {
     //This would be called based on physics
     //We could decide to have a different audio player or use the default 
     const handleCollision = (collisionName:CollisionName) => {
-        //Adding a point re-create's the texture
+        //Adding a point will re-create the score texture
         //This is a fairly heavy operation and distinct from rendering
         if(collisionName === CollisionName.LEFT_WALL) {
             addPoint(2);
