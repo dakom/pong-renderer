@@ -1,4 +1,4 @@
-A library to test web frameworks by rendering pong
+A library to test web frameworks by rendering Pong in WebGL
 
 # Example 
 
@@ -85,7 +85,7 @@ export interface Constants {
 
 In plain English, it's pretty much: 
 
-1. call `setup()` with (optional) default constants for game object position, canvas size, etc.
+1. call `setup()` with (optional) constants for game object position, canvas size, etc.
 
 2. get back functions that you call to render, play collision audio, and update the score
 
