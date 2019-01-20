@@ -2,6 +2,8 @@ A library to test web frameworks by rendering Pong in WebGL
 
 # [Example](https://dakom.github.io/pong-renderer/)
 
+This snippet shows how to get up and running. There is no movement of any kind because that's the idea - drive this with your game logic written elsewhere :)
+
 ```
 import {setup, CollisionName} from "pong-renderer";
 
