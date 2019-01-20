@@ -25,20 +25,24 @@ setup().then(({constants, render: _render, addPoint, playCollisionAudio}) => {
     //This would be called based on physics
     //We could decide to have a different audio player or use the default 
     const handleCollision = (collisionName:CollisionName) => {
+        //Adding a point re-create's the texture
+        //This is a fairly heavy operation and distinct from rendering
         if(collisionName === CollisionName.LEFT_WALL) {
             addPoint(2);
         } else if(collisionName === CollisionName.RIGHT_WALL) {
             addPoint(1);
         } 
 
+        //This is provided just to make some easy sounds 
+        //Feel free to roll your own
         playCollisionAudio(collisionName);
 
         //re-render to show updated score
         render();
     }
 
-    //Just to give the idea - pretend the ball hit the left wall on click
     //Some browsers requires a user gesture before playing audio
+    //This will add a point to player 2 when the window is clicked 
     window.onclick = () => handleCollision(CollisionName.LEFT_WALL);
 
     //Render the first screen
