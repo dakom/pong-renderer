@@ -1,4 +1,4 @@
-import {Position, Renderer, RenderableId, Constants, ControllerHandler, CollisionName} from "./types/Types";
+import {Position, ControllerValue, Renderer, RenderableId, Constants, ControllerHandler, CollisionName} from "./types/Types";
 import {playCollision} from "./audio/Audio";
 import {setupBackground} from "./background/Background";
 import {startController} from "./controller/Controller";
@@ -6,28 +6,28 @@ import {createScoreboard} from "./scoreboard/Scoreboard";
 import {setupRenderer} from "./renderer/Renderer-Setup";
 import * as WebFont from "webfontloader";
 
-interface SetupOptions {
+export interface SetupOptions {
     constants?:Constants,
     handleController: ControllerHandler;
 }
 
-interface SetupResult {
+export interface SetupResult {
     constants:Readonly<Constants>;
     onRender:(gameObjects:GameObjectPositions) => void;
     onCollision: (collisionName: CollisionName | string) => void;
 }
 
-interface GameObjectPositions {
+export interface GameObjectPositions {
     ball: Position, 
     paddle1: Position, 
     paddle2: Position
 }
 
-export {CollisionName};
+export {CollisionName, ControllerHandler, ControllerValue};
 
 export const setup = async ({handleController, ...opts}:SetupOptions):Promise<SetupResult> =>{
     setupBackground();
-    const constants = normalizeConstants(opts.constants);
+    const constants = _normalizeConstants(opts.constants);
 
     return new Promise(resolve => 
         //https://github.com/typekit/webfontloader/issues/393
@@ -80,7 +80,7 @@ export const getCenterPositions = (constants:Constants):GameObjectPositions => {
     }
 }
 
-const normalizeConstants = (_constants:Constants):Constants => 
+const _normalizeConstants = (_constants:Constants):Constants => 
     Object.assign({
         ballRadius: 7.0,
         ballSpeed: 1.0,

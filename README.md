@@ -5,14 +5,13 @@ A library to test web frameworks by rendering pong
 ```
 import {setup, CollisionName} from "pong-renderer";
 
-const handleController = evt => {
-    console.log(evt);
-
-    //Give Player 2 a point and play the audio
-    //Just to demo since some browsers require a gesture first
-    //In order to play audio
-    onCollision(CollisionName.LEFT_WALL);
+const handleController = (value:ControllerValue) => {
+    if(value === ControllerValue.UP) {
+        //Just for demo purposes... real-world would move paddle
+        onCollision(CollisionName.LEFT_WALL);
+    }
 }
+
 setup({ handleController}).then(({constants, onRender, onCollision}) => {
     const {canvasWidth, canvasHeight, ballRadius, paddleWidth, paddleHeight} = constants;
 
