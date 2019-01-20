@@ -1,30 +1,32 @@
 import {CollisionName} from "../types/Types";
 
-let ctx:AudioContext;
+let _ctx:AudioContext;
 
-const createContext = () => {
+const getContext = () => {
+    if(!_ctx) {
+        
 	const ctor = (window as any).AudioContext || (window as any).webkitAudioContext || undefined;
 	if (!ctor) {
     alert("Sorry, but the Web Audio API is not supported by your browser.");
 	}
   
-  return new ctor();
+        _ctx = new ctor();
+    }
+
+    return _ctx;
 }
 
 
 const playWave = (hz:number) => (time:number) => {
-    const oscillator = ctx.createOscillator();
+    const oscillator = getContext().createOscillator();
     oscillator.type = 'square';
-    oscillator.frequency.setValueAtTime(hz, ctx.currentTime);
-    oscillator.connect(ctx.destination);
+    oscillator.frequency.setValueAtTime(hz, getContext().currentTime);
+    oscillator.connect(getContext().destination);
     oscillator.start();
 
     setTimeout(() => oscillator.stop(), time);
 }
 
-export const setupAudio = () => {
-    ctx = createContext(); 
-}
 export const playCollision = (collisionName: CollisionName | string) => {
     switch(collisionName) {
         case "paddle1": 

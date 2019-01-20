@@ -1,6 +1,6 @@
 {
   "name": "pong-renderer",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pong Renderer",
   "main": "dist/lib.cjs.js",
   "module": "dist/lib.esm.js",

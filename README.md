@@ -7,6 +7,11 @@ import {setup, CollisionName} from "pong-renderer";
 
 const handleController = evt => {
     console.log(evt);
+
+    //Give Player 2 a point and play the audio
+    //Just to demo since some browsers require a gesture first
+    //In order to play audio
+    onCollision(CollisionName.LEFT_WALL);
 }
 setup({ handleController}).then(({constants, onRender, onCollision}) => {
     const {canvasWidth, canvasHeight, ballRadius, paddleWidth, paddleHeight} = constants;
@@ -18,8 +23,6 @@ setup({ handleController}).then(({constants, onRender, onCollision}) => {
         paddle2: {x: canvasWidth - (paddleWidth/2), y: canvasHeight/2},
     });
 
-    //Give Player 2 a point and play the audio
-    onCollision(CollisionName.LEFT_WALL);
 });
 ```
 

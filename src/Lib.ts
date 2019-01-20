@@ -1,5 +1,5 @@
 import {Position, Renderer, RenderableId, Constants, ControllerHandler, CollisionName} from "./types/Types";
-import {setupAudio, playCollision} from "./audio/Audio";
+import {playCollision} from "./audio/Audio";
 import {setupBackground} from "./background/Background";
 import {startController} from "./controller/Controller";
 import {createScoreboard} from "./scoreboard/Scoreboard";
@@ -26,7 +26,6 @@ interface GameObjectPositions {
 export {CollisionName};
 
 export const setup = async ({handleController, ...opts}:SetupOptions):Promise<SetupResult> =>{
-    setupAudio();
     setupBackground();
     const constants = normalizeConstants(opts.constants);
 
