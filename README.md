@@ -1,4 +1,4 @@
-A library to test web frameworks by rendering Pong in WebGL
+A library to test web things by rendering Pong in WebGL
 
 # [Example](https://dakom.github.io/pong-renderer/)
 
