@@ -1,6 +1,6 @@
 A library to test web frameworks by rendering Pong in WebGL
 
-# Example 
+# [Example](https://dakom.github.io/pong-renderer/)
 
 ```
 import {setup, CollisionName} from "pong-renderer";
